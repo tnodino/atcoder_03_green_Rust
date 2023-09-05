@@ -13,7 +13,7 @@ fn main() {
     let m = 1_000_000;
     Mint::set_modulus(10007);
     let mut DP = vec![Mint::new(0); m+1];
-    DP[3] = Mint::new(1);
+    DP[3] = 1.into();
     for i in 4..=n {
         DP[i] = DP[i-1] + DP[i-2] + DP[i-3];
     }
