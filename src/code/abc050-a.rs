@@ -2,42 +2,26 @@
 
 use proconio::input;
 use proconio::fastout;
-
-const MOD: usize = 1_000_000_007;
+use ac_library::ModInt1000000007 as Mint;
 
 #[fastout]
 #[allow(non_snake_case)]
 fn main() {
     input! {
         N: usize,
-        mut A: [usize; N],
+        A: [usize; N],
     }
-    A.sort();
-    let mut x;
-    let mut cnt;
-    if N % 2 == 0 {
-        x = 1;
-        cnt = 0;
-    }
-    else {
-        x = 0;
-        cnt = 1;
+    let mut cnt = vec![0; N];
+    for i in 0..N {
+        cnt[A[i]] += 1;
     }
     for i in 0..N {
-        if A[i] != x {
+        let idx = ((N as isize - i as isize - 1) - (i as isize)).abs() as usize;
+        if cnt[idx] == 0 {
             println!("0");
             return;
         }
-        cnt += 1;
-        if cnt == 2 {
-            cnt = 0;
-            x += 2;
-        }
+        cnt[idx] -= 1;
     }
-    let mut ans = 1;
-    for _ in 0..N/2 {
-        ans *= 2;
-        ans %= MOD;
-    }
-    println!("{}", ans);
+    println!("{}", Mint::new(2).pow((N/2).try_into().unwrap()));
 }
