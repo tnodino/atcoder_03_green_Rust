@@ -11,32 +11,34 @@ fn main() {
         N: usize,
     }
     let mut vec = Vec::new();
-    let arr = [3, 5, 7];
-    let mut que = VecDeque::new();
-    que.push_back(0);
+    let mut que = VecDeque::from([0]);
     while !que.is_empty() {
-        let pos = que.pop_front().unwrap();
-        for i in 0..3 {
-            let x = pos * 10 + arr[i];
-            if x > N {
-                continue;
-            }
-            vec.push(x);
-            que.push_back(x);
+        let num = que.pop_front().unwrap() * 10;
+        let x7 = num + 7;
+        let x5 = num + 5;
+        let x3 = num + 3;
+        if x7 <= N {
+            vec.push(x7);
+            que.push_back(x7);
+        }
+        if x5 <= N {
+            vec.push(x5);
+            que.push_back(x5);
+        }
+        if x3 <= N {
+            vec.push(x3);
+            que.push_back(x3);
         }
     }
+    let M = vec.len();
     let mut ans = 0;
-    for i in 0..vec.len() {
-        let mut x = vec[i];
-        let mut flg = [false; 3];
-        while x > 0 {
-            let idx = match x % 10 {
-                3 => 0,
-                5 => 1,
-                _ => 2,
-            };
-            x /= 10;
+    for i in 0..M {
+        let mut num = vec[i];
+        let mut flg = vec![false; 3];
+        while num > 0 {
+            let idx = (num % 10) / 2 - 1;
             flg[idx] = true;
+            num /= 10;
         }
         if flg.iter().all(|&x| x) {
             ans += 1;
