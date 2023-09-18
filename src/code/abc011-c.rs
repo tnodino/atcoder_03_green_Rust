@@ -7,29 +7,24 @@ use proconio::fastout;
 #[allow(non_snake_case)]
 fn main() {
     input! {
-        mut N: isize,
-        NG1: isize,
-        NG2: isize,
-        NG3: isize,
+        (mut N, NG1, NG2, NG3): (isize, isize, isize, isize),
     }
-    if NG1 == N || NG2 == N || NG3 == N {
+    if N == NG1 || N == NG2 || N == NG3 {
         println!("NO");
         return;
     }
-    for _ in 0..100 {
-        for k in (1..=3).rev() {
-            let x = N - k;
-            if NG1 == x || NG2 == x || NG3 == x {
-                continue;
+    'cont: for _ in 0..100 {
+        for x in (1..=3).rev() {
+            if N - x != NG1 && N - x != NG2 && N - x != NG3 {
+                N -= x;
+                continue 'cont;
             }
-            N = x;
-            break;
         }
-    }
-    if N <= 0 {
-        println!("YES");
-    }
-    else {
         println!("NO");
+        return;
     }
+    println!("{}", match N <= 0 {
+        true => "YES",
+        false => "NO",
+    })
 }

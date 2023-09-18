@@ -2,48 +2,31 @@
 
 use proconio::input;
 use proconio::fastout;
-use std::collections::VecDeque;
+use ac_library::Dsu;
 
 #[fastout]
 #[allow(non_snake_case)]
 fn main() {
     input! {
-        N: usize,
-        M: usize,
+        (N, M): (usize, usize),
     }
-    let mut vec = Vec::new();
+    let mut edge = Vec::new();
     for _ in 0..M {
         input! {
-            a: usize,
-            b: usize,
+            (a, b): (usize, usize),
         }
-        vec.push((a-1, b-1));
+        edge.push((a-1, b-1));
     }
     let mut ans = 0;
     for i in 0..M {
-        let mut G = vec![Vec::new(); N];
+        let mut UF = Dsu::new(N);
         for j in 0..M {
             if i == j {
                 continue;
             }
-            G[vec[j].0].push(vec[j].1);
-            G[vec[j].1].push(vec[j].0);
+            UF.merge(edge[j].0, edge[j].1);
         }
-        let mut flg = vec![false; N];
-        flg[0] = true;
-        let mut que = VecDeque::new();
-        que.push_back(0);
-        while !que.is_empty() {
-            let pos = que.pop_front().unwrap();
-            for nxt in G[pos].iter() {
-                if flg[*nxt] {
-                    continue;
-                }
-                flg[*nxt] = true;
-                que.push_back(*nxt);
-            }
-        }
-        if !flg.iter().all(|&x| x) {
+        if UF.size(0) < N {
             ans += 1;
         }
     }

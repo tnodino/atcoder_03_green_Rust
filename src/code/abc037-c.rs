@@ -7,19 +7,18 @@ use proconio::fastout;
 #[allow(non_snake_case)]
 fn main() {
     input! {
-        N: usize,
-        K: usize,
+        (N, K): (usize, usize),
         a: [usize; N],
     }
-    let mut s = 0;
+    let mut sum = 0;
     for i in 0..K {
-        s += a[i];
+        sum += a[i];
     }
-    let mut ans = s;
+    let mut ans = sum;
     for i in K..N {
-        s -= a[i-K];
-        s += a[i];
-        ans += s;
+        sum -= a[i-K];
+        sum += a[i];
+        ans += sum;
     }
     println!("{}", ans);
 }

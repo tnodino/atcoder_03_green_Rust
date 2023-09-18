@@ -8,20 +8,18 @@ use libm::sqrt;
 #[allow(non_snake_case)]
 fn main() {
     input! {
-        N: usize,
-        M: usize,
+        (N, M): (usize, usize),
     }
-    let K = sqrt(M as f64) as usize + 1;
+    let m = sqrt(M as f64) as usize;
     let mut vec = Vec::new();
-    for i in 1..=K {
+    for i in 1..=m {
         if M % i == 0 {
             vec.push(i);
             vec.push(M / i);
         }
     }
-    vec.sort();
-    vec.dedup();
-    for i in (0..vec.len()).rev() {
+    vec.sort_by(|a, b| b.cmp(&a));
+    for i in 0..vec.len() {
         if vec[i] * N <= M {
             println!("{}", vec[i]);
             return;

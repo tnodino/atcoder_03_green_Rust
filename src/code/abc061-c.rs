@@ -7,14 +7,12 @@ use proconio::fastout;
 #[allow(non_snake_case)]
 fn main() {
     input! {
-        N: usize,
-        K: usize,
+        (N, K): (usize, usize),
     }
     let mut vec = Vec::new();
     for _ in 0..N {
         input! {
-            a: usize,
-            b: usize,
+            (a, b): (usize, usize),
         }
         vec.push((a, b));
     }
@@ -22,7 +20,7 @@ fn main() {
     let mut cnt = 0;
     for i in 0..N {
         cnt += vec[i].1;
-        if K <= cnt {
+        if cnt >= K {
             println!("{}", vec[i].0);
             return;
         }
