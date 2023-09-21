@@ -2,33 +2,28 @@
 
 use proconio::input;
 use proconio::fastout;
-use num::pow;
 use std::cmp::min;
-
-const INF: usize = 1<<60;
 
 #[fastout]
 #[allow(non_snake_case)]
 fn main() {
     input! {
-        mut N: usize,
+        N: usize,
     }
-    let mut DP = vec![INF; N+1];
-    DP[0] = 0;
-    for i in 1..=N {
-        DP[i] = min(DP[i], DP[i-1] + 1);
-        for k in 1..10 {
-            if pow(6, k) <= i {
-                let x = pow(6, k);
-                DP[i] = min(DP[i], DP[i-x] + 1);
-            }
+    let mut ans = N;
+    for i in 0..=N {
+        let mut res = 0;
+        let mut x = i;
+        while x > 0 {
+            res += x % 6;
+            x /= 6;
         }
-        for k in 1..10 {
-            if pow(9, k) <= i {
-                let x = pow(9, k);
-                DP[i] = min(DP[i], DP[i-x] + 1);
-            }
+        let mut x = N - i;
+        while x > 0 {
+            res += x % 9;
+            x /= 9;
         }
+        ans = min(ans, res);
     }
-    println!("{}", DP[N]);
+    println!("{}", ans);
 }
